@@ -8,17 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using LinkAggregator.Data;
 using LinkAggregator.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LinkAggregator.Pages.Links
 {
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private IAuthorizationService AuthorizationService { get; }
         private UserManager<IdentityUser> UserManager { get; }
 
-        public IndexModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public IndexModel(
+            ApplicationDbContext context,
+            IAuthorizationService authorizationService,
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
+            AuthorizationService = authorizationService;
             UserManager = userManager;
         }
 
