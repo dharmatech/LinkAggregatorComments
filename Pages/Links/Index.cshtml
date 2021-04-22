@@ -46,15 +46,15 @@
                 <form asp-page-handler="Vote" style="display:inline" method="post">
                     <input type="hidden" name="id" value="@link.Id" />
                     <input type="hidden" name="score" value="1" />
-                    <button type="submit">U</button>
+                    <button class="btn @(link.UserScore(Model.CurrentUserid()) == 1 ? "btn-primary" : "btn-secondary")" type="submit">U</button>
                 </form>
-               
+                                               
                 @link.Score()
  
                 <form asp-page-handler="Vote" style="display:inline" method="post">
                     <input type="hidden" name="id" value="@link.Id" />
                     <input type="hidden" name="score" value="-1" />
-                    <button type="submit">D</button>
+                    <button class="btn @(link.UserScore(Model.CurrentUserid()) == -1 ? "btn-primary" : "btn-secondary")" type="submit">D</button>
                 </form>                
             </td>
 
