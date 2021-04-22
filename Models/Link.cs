@@ -26,6 +26,13 @@ namespace LinkAggregator.Models
 
         public Vote UserVote(string userId) => Votes.FirstOrDefault(vote => vote.UserId == userId);
 
+        public int UserScore(string userId)
+        {
+            var vote = UserVote(userId);
+
+            return vote == null ? 0 : vote.Score;
+        }
+
         public async Task Vote(int score, string voterUserId)
         {
             var vote = UserVote(voterUserId);
