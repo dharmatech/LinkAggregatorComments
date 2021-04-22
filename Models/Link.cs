@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace LinkAggregator.Models
 {
@@ -19,5 +20,7 @@ namespace LinkAggregator.Models
         public DateTime DateTime { get; set; }
 
         public List<Vote> Votes { get; set; }
+
+        public int Score() => Votes.Sum(vote => vote.Score);
     }
 }
