@@ -28,7 +28,9 @@ namespace LinkAggregator.Pages.Links
                 return NotFound();
             }
 
-            Link = await _context.Link.FirstOrDefaultAsync(m => m.Id == id);
+            Link = await _context.Link
+                .Include(link => link.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Link == null)
             {
