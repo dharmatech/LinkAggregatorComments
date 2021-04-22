@@ -41,6 +41,23 @@
             <td>
                 @Html.DisplayFor(modelItem => link.DateTime)
             </td>
+
+            <td>
+                <form asp-page-handler="Vote" style="display:inline" method="post">
+                    <input type="hidden" name="id" value="@link.Id" />
+                    <input type="hidden" name="score" value="1" />
+                    <button type="submit">U</button>
+                </form>
+               
+                @link.Score()
+ 
+                <form asp-page-handler="Vote" style="display:inline" method="post">
+                    <input type="hidden" name="id" value="@link.Id" />
+                    <input type="hidden" name="score" value="-1" />
+                    <button type="submit">D</button>
+                </form>                
+            </td>
+
             <td>
                 <a asp-page="./Edit" asp-route-id="@link.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@link.Id">Details</a> |
