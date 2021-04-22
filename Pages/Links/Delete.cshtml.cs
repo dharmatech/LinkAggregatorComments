@@ -7,16 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LinkAggregator.Data;
 using LinkAggregator.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using LinkAggregator.Authorization;
 
 namespace LinkAggregator.Pages.Links
 {
     public class DeleteModel : PageModel
     {
-        private readonly LinkAggregator.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private IAuthorizationService AuthorizationService { get; }
+        private UserManager<IdentityUser> UserManager { get; }
 
-        public DeleteModel(LinkAggregator.Data.ApplicationDbContext context)
+        public DeleteModel(
+            ApplicationDbContext context,
+            IAuthorizationService authorizationService,
+            UserManager<IdentityUser> userManager
+            )
         {
             _context = context;
+            AuthorizationService = authorizationService;
+            UserManager = userManager;
         }
 
         [BindProperty]
