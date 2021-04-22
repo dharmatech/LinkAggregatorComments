@@ -32,5 +32,24 @@ namespace LinkAggregator.Pages.Links
                 .Include(link => link.Votes)
                 .ToListAsync();
         }
+
+        public async Task<IActionResult> OnPostVoteAsync(int id, int score)
+        {
+            if (User == null)
+                return RedirectToPage();
+
+            if (User.Identity.IsAuthenticated == false)
+                return RedirectToPage();
+                        
+            var link = _context.Link
+                .Include(link => link.Votes)
+                .First(link => link.Id == id);
+                        
+            await link.Vote(score, UserManager.GetUserId(User));
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }
     }
 }
