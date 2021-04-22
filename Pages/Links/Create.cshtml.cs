@@ -21,6 +21,9 @@ namespace LinkAggregator.Pages.Links
 
         public IActionResult OnGet()
         {
+            if (User.Identity.Name == null)
+                return RedirectToPage("./Index");
+
             return Page();
         }
 
