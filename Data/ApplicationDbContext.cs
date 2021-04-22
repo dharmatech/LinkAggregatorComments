@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using LinkAggregator.Models;
 
 namespace LinkAggregator.Data
 {
@@ -12,5 +13,6 @@ namespace LinkAggregator.Data
             : base(options)
         {
         }
+        public DbSet<LinkAggregator.Models.Link> Link { get; set; }
     }
 }
