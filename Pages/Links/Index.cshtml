@@ -17,6 +17,9 @@
                 @Html.DisplayNameFor(model => model.Link[0].UserId)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Link[0].Title)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Link[0].Url)
             </th>
             <th>
@@ -31,6 +34,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Url)
             </td>
