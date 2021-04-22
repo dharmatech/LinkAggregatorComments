@@ -22,13 +22,13 @@ namespace LinkAggregator.Pages.Links
             UserManager = userManager;
         }
 
-        public IList<Link> Link { get;set; }
+        public IList<Link> Links { get;set; }
 
         public IdentityUser LinkUser(Link link) => UserManager.FindByIdAsync(link.UserId).Result;
 
         public async Task OnGetAsync()
         {
-            Link = await _context.Link
+            Links = await _context.Link
                 .Include(link => link.Votes)
                 .ToListAsync();
         }
