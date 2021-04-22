@@ -41,6 +41,8 @@ namespace LinkAggregator.Pages.Links
                 return Page();
             }
 
+            Link.UserId = UserManager.GetUserId(User);
+
             _context.Link.Add(Link);
             await _context.SaveChangesAsync();
 
