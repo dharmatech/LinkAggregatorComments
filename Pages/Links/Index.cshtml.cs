@@ -31,7 +31,10 @@ namespace LinkAggregator.Pages.Links
             Links = await _context.Link
                 .Include(link => link.Votes)
                 .ToListAsync();
+
         }
+
+        public string CurrentUserid() => UserManager.GetUserId(User);
 
         public async Task<IActionResult> OnPostVoteAsync(int id, int score)
         {
