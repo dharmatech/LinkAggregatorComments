@@ -7,19 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using LinkAggregator.Data;
 using LinkAggregator.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace LinkAggregator.Pages.Links
 {
     public class IndexModel : PageModel
     {
-        private readonly LinkAggregator.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private UserManager<IdentityUser> UserManager { get; }
 
-        public IndexModel(LinkAggregator.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            UserManager = userManager;
         }
 
         public IList<Link> Link { get;set; }
+
+        public IdentityUser LinkUser(Link link) => UserManager.FindByIdAsync(link.UserId).Result;
 
         public async Task OnGetAsync()
         {
