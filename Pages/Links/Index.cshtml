@@ -33,7 +33,9 @@
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                <a href="@item.Url">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </a>
             </td>
 
             <td>
