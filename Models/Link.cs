@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LinkAggregator.Models
@@ -16,5 +17,7 @@ namespace LinkAggregator.Models
         [Display(Name = "Date")]
         [DataType(DataType.Date)]
         public DateTime DateTime { get; set; }
+
+        public List<Vote> Votes { get; set; }
     }
 }
