@@ -28,7 +28,9 @@ namespace LinkAggregator.Pages.Links
 
         public async Task OnGetAsync()
         {
-            Link = await _context.Link.ToListAsync();
+            Link = await _context.Link
+                .Include(link => link.Votes)
+                .ToListAsync();
         }
     }
 }
