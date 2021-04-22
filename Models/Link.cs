@@ -12,6 +12,9 @@ namespace LinkAggregator.Models
         public string Url { get; set; }
 
         public string Title { get; set; }
+
+        [Display(Name = "Date")]
+        [DataType(DataType.Date)]
         public DateTime DateTime { get; set; }
     }
 }
