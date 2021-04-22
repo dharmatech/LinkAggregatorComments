@@ -1,5 +1,12 @@
 @using Microsoft.AspNetCore.Identity
 @using LinkAggregator
 @using LinkAggregator.Data
+
+@using Microsoft.AspNetCore.Authorization
+@using LinkAggregator.Models
+@using LinkAggregator.Authorization
+
+@inject IAuthorizationService AuthorizationService
+
 @namespace LinkAggregator.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
