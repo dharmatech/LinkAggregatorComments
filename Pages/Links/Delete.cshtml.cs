@@ -46,6 +46,12 @@ namespace LinkAggregator.Pages.Links
             {
                 return NotFound();
             }
+
+            var is_authorized = await AuthorizationService.AuthorizeAsync(User, Link, LinkOperations.Delete);
+
+            if (is_authorized.Succeeded == false)
+                return Forbid();
+
             return Page();
         }
 
