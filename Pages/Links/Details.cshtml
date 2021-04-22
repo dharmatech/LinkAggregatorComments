@@ -35,6 +35,32 @@
         <dd class="col-sm-10">
             @Model.Link.DateTime
         </dd>
+
+        <dt class="col-sm-2">Score</dt>
+
+        <dd class="col-sm-10">
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-page-handler="Vote" style="display:inline" method="post">
+                    <input type="hidden" name="id" value="@Model.Link.Id" />
+                    <input type="hidden" name="score" value="1" />
+                    <button class="btn @(Model.Link.UserScore(Model.CurrentUserid()) == 1 ? "btn-primary" : "btn-secondary")">U</button>
+                </form>
+            }
+
+            @Model.Link.Score()
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-page-handler="Vote" style="display:inline" method="post">
+                    <input type="hidden" name="id" value="@Model.Link.Id" />
+                    <input type="hidden" name="score" value="-1" />
+                    <button class="btn @(Model.Link.UserScore(Model.CurrentUserid()) == -1 ? "btn-primary" : "btn-secondary")">D</button>
+                </form>
+            }
+
+        </dd>
     </dl>
 </div>
 <div>
