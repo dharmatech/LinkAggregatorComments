@@ -17,34 +17,34 @@
                 User Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Link[0].Title)
+                @Html.DisplayNameFor(model => model.Links[0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Link[0].DateTime)
+                @Html.DisplayNameFor(model => model.Links[0].DateTime)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Link) {
+@foreach (var link in Model.Links) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => Model.LinkUser(item).UserName)
+                @Html.DisplayFor(modelItem => Model.LinkUser(link).UserName)
             </td>
 
             <td>
-                <a href="@item.Url">
-                    @Html.DisplayFor(modelItem => item.Title)
+                <a href="@link.Url">
+                    @Html.DisplayFor(modelItem => link.Title)
                 </a>
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
+                @Html.DisplayFor(modelItem => link.DateTime)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@link.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@link.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@link.Id">Delete</a>
             </td>
         </tr>
 }
