@@ -14,5 +14,7 @@ namespace LinkAggregator.Data
         {
         }
         public DbSet<LinkAggregator.Models.Link> Link { get; set; }
+
+        public DbSet<Vote> Vote { get; set; }
     }
 }
