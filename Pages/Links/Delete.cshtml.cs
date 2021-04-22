@@ -58,12 +58,18 @@ namespace LinkAggregator.Pages.Links
 
             Link = await _context.Link.FindAsync(id);
 
-            if (Link != null)
-            {
-                _context.Link.Remove(Link);
-                await _context.SaveChangesAsync();
-            }
+            if (Link == null)
+                return NotFound();
 
+            var is_authorized = await AuthorizationService.AuthorizeAsync(User, Link, LinkOperations.Delete);
+
+            if (is_authorized.Succeeded == false)
+                return Forbid();
+                        
+            _context.Link.Remove(Link);
+
+            await _context.SaveChangesAsync();
+            
             return RedirectToPage("./Index");
         }
     }
