@@ -43,6 +43,8 @@ namespace LinkAggregator.Pages.Links
 
             Link.UserId = UserManager.GetUserId(User);
 
+            Link.DateTime = DateTime.Now;
+
             _context.Link.Add(Link);
             await _context.SaveChangesAsync();
 
