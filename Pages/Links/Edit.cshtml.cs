@@ -25,6 +25,8 @@ namespace LinkAggregator.Pages.Links
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            return RedirectToPage("./Index");
+
             if (id == null)
             {
                 return NotFound();
@@ -43,6 +45,8 @@ namespace LinkAggregator.Pages.Links
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            return RedirectToPage("./Index");
+
             if (!ModelState.IsValid)
             {
                 return Page();
