@@ -46,5 +46,24 @@ namespace LinkAggregator.Pages.Links
             }
             return Page();
         }
+
+        public async Task<IActionResult> OnPostVoteAsync(int id, int score)
+        {
+            if (User == null)
+                return RedirectToPage();
+
+            if (User.Identity.IsAuthenticated == false)
+                return RedirectToPage();
+
+            var link = await _context.Link
+                .Include(link => link.Votes)
+                .FirstOrDefaultAsync(link => link.Id == id);
+
+            await link.Vote(score, UserManager.GetUserId(User));
+
+            await _context.SaveChangesAsync();
+
+            return Redirect(HttpContext.Request.Headers["Referer"]);
+        }
     }
 }
