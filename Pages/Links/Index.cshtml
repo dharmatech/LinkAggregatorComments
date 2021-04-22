@@ -60,7 +60,11 @@
 
             <td>
                 <a class="btn btn-info" asp-page="./Details" asp-route-id="@link.Id">Details</a>
-                <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@link.Id">Delete</a>
+
+                @if ((await AuthorizationService.AuthorizeAsync(User, link, LinkOperations.Delete)).Succeeded)
+                {
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@link.Id">Delete</a>
+                }
             </td>
         </tr>
 }
