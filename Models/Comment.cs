@@ -22,5 +22,10 @@ namespace LinkAggregator.Models
         public IdentityUser User { get; set; }
 
         public List<CommentVote> Votes { get; set; }
+
+        public int Score() =>
+            Votes
+                .Where(vote => vote.CommentId == Id)
+                .Sum(vote => vote.Score);
     }
 }
