@@ -18,7 +18,73 @@
                         @comment.Text
                     </div>
 
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-page-handler="CommentVote" style="display:inline" method="post">
+                            <input type="hidden" name="id" value="@comment.Id" />
+                            <input type="hidden" name="score" value="1" />
+                            <button class="btn @(comment.UserScore(Model.CurrentUserId()) == 1 ? "btn-primary" : "btn-secondary")"
+                                    type="submit">
+                                U
+                            </button>
+                        </form>
+                    }
+
                     @comment.Score()
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-page-handler="CommentVote" style="display:inline" method="post">
+                            <input type="hidden" name="id" value="@comment.Id" />
+                            <input type="hidden" name="score" value="-1" />
+                            <button class="btn @(comment.UserScore(Model.CurrentUserId()) == -1 ? "btn-primary" : "btn-secondary")"
+                                    type="submit">
+                                D
+                            </button>
+                        </form>
+                    }
+
+                    @if (comment.Comments.Count > 0)
+                    {
+                        <button class="btn btn-primary" type="button"
+                                data-toggle="collapse"
+                                data-target="#collapse_replies_@comment.Id"
+                                aria-expanded="false"
+                                aria-controls="collapse_replies_@comment.Id">
+                            Replies @comment.Comments.Count
+                        </button>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button class="btn btn-primary" type="button"
+                                data-toggle="collapse"
+                                data-target="#collapseExample_@comment.Id"
+                                aria-expanded="false" aria-controls="collapseExample_@comment.Id">
+                            Reply
+                        </button>
+
+                        <div class="collapse" id="collapseExample_@comment.Id">
+
+                            <form asp-page-handler="AddReply" method="post">
+
+                                <div class="form-group">
+                                    <input type="hidden" name="id" value="@comment.Id" />
+
+                                    <textarea class="form-control" name="text"></textarea>
+                                </div>
+
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    }
+
+                    <div class="collapse" id="collapse_replies_@comment.Id">
+
+                        @{ await Template(comment.Comments); }
+
+                    </div>
+
                 </li>
             </ul>
         }
@@ -99,7 +165,7 @@
     </form>
 
     @{ await Template(Model.Link.Comments); }
-
+        
 </div>
 
 <div>

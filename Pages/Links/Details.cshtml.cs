@@ -26,7 +26,7 @@ namespace LinkAggregator.Pages.Links
 
 
         public Link Link { get; set; }
-
+                
         public string CurrentUserId() => UserManager.GetUserId(User);
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -40,8 +40,44 @@ namespace LinkAggregator.Pages.Links
                 .Include(link => link.User)
                 .Include(link => link.Votes)
                 .Include(link => link.Comments)
-                .ThenInclude(comment => comment.Votes)
+                //.Include(link => link.Comments).ThenInclude(comment => comment.User)
+                //.Include(link => link.Comments).ThenInclude(comment => comment.Votes)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            //_context.Entry(Link).Collection(link => link.Comments).Load();
+
+            void load_comments(List<Comment> comments)
+            {
+                foreach (var comment in comments)
+                {
+                    _context.Entry(comment).Reference(comment => comment.User).Load();
+                    
+                    _context.Entry(comment).Collection(comment => comment.Comments).Load();
+
+                    _context.Entry(comment).Collection(comment => comment.Votes).Load();
+
+                    //_context.Entry(comment).Reference(comment => comment.User).Load();
+
+                    load_comments(comment.Comments);
+                }
+            }
+
+            load_comments(Link.Comments);
+
+
+            //void load_comment(Comment comment)
+            //{
+            //    _context.Entry(comment).Collection(comment => comment.Comments).Load();
+            //    _context.Entry(comment).Collection(comment => comment.Votes).Load();
+
+            //    foreach (var elt in comment.Comments)
+            //        load_comment(elt);
+            //}
+
+
+
+
+
 
             if (Link == null)
             {
@@ -83,6 +119,46 @@ namespace LinkAggregator.Pages.Links
                         
             await link.AddComment(text, CurrentUserId());
                         
+            await _context.SaveChangesAsync();
+
+            return Redirect(HttpContext.Request.Headers["Referer"]);
+        }
+
+        public async Task<IActionResult> OnPostCommentVoteAsync(int id, int score)
+        {
+            if (User == null)
+                return Redirect(HttpContext.Request.Headers["Referer"]);
+
+            if (User.Identity.IsAuthenticated == false)
+                return Redirect(HttpContext.Request.Headers["Referer"]);
+
+            //var comment = new CommentAlt(await Context.Comment.FirstOrDefaultAsync(comment => comment.Id == id), this);
+
+            var comment = await _context.Comment
+                .Include(comment => comment.Votes)
+                .FirstOrDefaultAsync(comment => comment.Id == id);
+
+            await comment.Vote(score, UserManager.GetUserId(User));
+
+            await _context.SaveChangesAsync();
+
+            return Redirect(HttpContext.Request.Headers["Referer"]);
+        }
+
+        public async Task<IActionResult> OnPostAddReplyAsync(int id, string text)
+        {
+            if (User == null)
+                return Redirect(HttpContext.Request.Headers["Referer"]);
+
+            if (User.Identity.IsAuthenticated == false)
+                return Redirect(HttpContext.Request.Headers["Referer"]);
+                        
+            var comment = await _context.Comment
+                .Include(link => link.Comments)
+                .FirstOrDefaultAsync(comment => comment.Id == id);
+
+            await comment.AddComment(text, CurrentUserId());
+
             await _context.SaveChangesAsync();
 
             return Redirect(HttpContext.Request.Headers["Referer"]);

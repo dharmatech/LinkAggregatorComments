@@ -29,7 +29,8 @@ namespace LinkAggregator.Models
 
         public int Score() => Votes.Sum(vote => vote.Score);
 
-        public Vote UserVote(string userId) => Votes.FirstOrDefault(vote => vote.UserId == userId);
+        public Vote UserVote(string userId) => 
+            Votes.FirstOrDefault(vote => vote.UserId == userId);
 
         public int UserScore(string userId)
         {
