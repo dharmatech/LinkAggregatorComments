@@ -5,6 +5,24 @@
     ViewData["Title"] = "Details";
 }
 
+@{ 
+    async Task Template(IList<Comment> comments)
+    {
+        foreach (var comment in comments)
+        {
+            <ul>
+                <li>
+                    @comment.User
+
+                    <div>
+                        @comment.Text
+                    </div>
+                </li>
+            </ul>
+        }
+    }
+}
+
 <h1>Details</h1>
 
 <div>
@@ -45,7 +63,7 @@
                 <form asp-page-handler="Vote" style="display:inline" method="post">
                     <input type="hidden" name="id" value="@Model.Link.Id" />
                     <input type="hidden" name="score" value="1" />
-                    <button class="btn @(Model.Link.UserScore(Model.CurrentUserid()) == 1 ? "btn-primary" : "btn-secondary")">U</button>
+                    <button class="btn @(Model.Link.UserScore(Model.CurrentUserId()) == 1 ? "btn-primary" : "btn-secondary")">U</button>
                 </form>
             }
 
@@ -56,13 +74,32 @@
                 <form asp-page-handler="Vote" style="display:inline" method="post">
                     <input type="hidden" name="id" value="@Model.Link.Id" />
                     <input type="hidden" name="score" value="-1" />
-                    <button class="btn @(Model.Link.UserScore(Model.CurrentUserid()) == -1 ? "btn-primary" : "btn-secondary")">D</button>
+                    <button class="btn @(Model.Link.UserScore(Model.CurrentUserId()) == -1 ? "btn-primary" : "btn-secondary")">D</button>
                 </form>
             }
 
         </dd>
     </dl>
 </div>
+
+<div>
+    <h1>Comments</h1>
+
+    <form asp-page-handler="AddComment" method="post">
+
+        <div class="form-group">
+            <input type="hidden" name="id" value="@Model.Link.Id" />
+
+            <textarea name="text"></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Add Comment</button>
+    </form>
+
+    @{ await Template(Model.Link.Comments); }
+
+</div>
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Link.Id">Edit</a> |
     <a asp-page="./Index">Back to List</a>
