@@ -40,6 +40,7 @@ namespace LinkAggregator.Pages.Links
                 .Include(link => link.User)
                 .Include(link => link.Votes)
                 .Include(link => link.Comments)
+                .ThenInclude(comment => comment.Votes)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Link == null)
